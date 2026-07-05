@@ -26,6 +26,15 @@ jobs:
       - name: Instalar dependências
         run: pip install -r requirements.txt
 
+      - name: Verificar ambiente
+        run: |
+          python --version
+          pip list
+          ls -la
+          echo "EMAIL_REMETENTE definido: ${{ secrets.EMAIL_REMETENTE != '' }}"
+          echo "SENHA_APP definido: ${{ secrets.SENHA_APP != '' }}"
+          echo "EMAIL_DESTINATARIO definido: ${{ secrets.EMAIL_DESTINATARIO != '' }}"
+
       - name: Executar Monitor B3
         env:
           EMAIL_REMETENTE:    ${{ secrets.EMAIL_REMETENTE }}
@@ -34,6 +43,7 @@ jobs:
         run: python main.py
 
       - name: Salvar banco de deduplicação
+        if: always()
         run: |
           git config user.name  "Monitor B3 Bot"
           git config user.email "monitor-b3@github-actions"
