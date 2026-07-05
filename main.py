@@ -8,7 +8,7 @@
 
 import sys
 from datetime import datetime, timedelta, timezone
-from config import ACOES, FIIS, HORARIOS
+from config import ACOES, FIIS
 from dedup  import inicializar_db, registrar_enviadas, limpar_antigas
 from scraper import coletar_noticias
 from mailer  import enviar_email
