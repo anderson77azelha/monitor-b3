@@ -1,18 +1,9 @@
-# =============================================================================
-# MONITOR B3 — GitHub Actions Workflow
-# =============================================================================
-# Executa às 09h00 e 16h00 (horário de Brasília = 12h00 e 19h00 UTC)
-# Persiste o banco de deduplicação via commit automático no repositório
-# =============================================================================
-
 name: Monitor B3 — Notícias
 
 on:
   schedule:
-    - cron: '0 12 * * *'   # 09:00 BRT (UTC-3)
-    - cron: '0 19 * * *'   # 16:00 BRT (UTC-3)
-
-  # Permite disparar manualmente pela interface do GitHub (útil para testes)
+    - cron: '0 12 * * *'
+    - cron: '0 19 * * *'
   workflow_dispatch:
 
 jobs:
@@ -20,30 +11,21 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
-    # Permissão para commitar o banco de deduplicação de volta ao repositório
     permissions:
       contents: write
 
     steps:
-
-      # 1. Baixa o repositório (incluindo o banco SQLite se já existir)
       - name: Checkout do repositório
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      # 2. Configura Python
       - name: Configurar Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip'
 
-      # 3. Instala dependências
       - name: Instalar dependências
-        run: pip install feedparser requests beautifulsoup4
+        run: pip install -r requirements.txt
 
-      # 4. Executa o monitor (variáveis sensíveis vêm dos Secrets do GitHub)
       - name: Executar Monitor B3
         env:
           EMAIL_REMETENTE:    ${{ secrets.EMAIL_REMETENTE }}
@@ -51,7 +33,6 @@ jobs:
           EMAIL_DESTINATARIO: ${{ secrets.EMAIL_DESTINATARIO }}
         run: python main.py
 
-      # 5. Persiste o banco de deduplicação commitando de volta ao repositório
       - name: Salvar banco de deduplicação
         run: |
           git config user.name  "Monitor B3 Bot"
