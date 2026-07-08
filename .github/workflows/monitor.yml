@@ -2,8 +2,10 @@ name: Monitor B3 — Notícias
 
 on:
   schedule:
-    - cron: '0 12 * * *'
-    - cron: '0 19 * * *'
+    - cron: '0 9 * * *'    # 09:00 BRT
+    - cron: '30 9 * * *'   # 09:30 BRT — retry manhã
+    - cron: '0 16 * * *'   # 16:00 BRT
+    - cron: '30 16 * * *'  # 16:30 BRT — retry tarde
   workflow_dispatch:
 
 jobs:
@@ -26,14 +28,10 @@ jobs:
       - name: Instalar dependências
         run: pip install -r requirements.txt
 
-      - name: Verificar ambiente
+      - name: Registrar horário de execução
         run: |
-          python --version
-          pip list
-          ls -la
-          echo "EMAIL_REMETENTE definido: ${{ secrets.EMAIL_REMETENTE != '' }}"
-          echo "SENHA_APP definido: ${{ secrets.SENHA_APP != '' }}"
-          echo "EMAIL_DESTINATARIO definido: ${{ secrets.EMAIL_DESTINATARIO != '' }}"
+          echo "UTC: $(date -u '+%H:%M')"
+          echo "BRT estimado: $(TZ='America/Sao_Paulo' date '+%H:%M')"
 
       - name: Executar Monitor B3
         env:
