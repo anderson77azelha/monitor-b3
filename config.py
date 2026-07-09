@@ -54,7 +54,7 @@ NOMES = {
 
 # ── PARÂMETROS DE BUSCA ───────────────────────────────────────────────────────
 # Janela de tempo: quantas horas atrás buscar notícias
-JANELA_HORAS = 8
+JANELA_HORAS = 5
 
 # Número máximo de notícias por ativo por disparo
 MAX_NOTICIAS_POR_ATIVO = 5
