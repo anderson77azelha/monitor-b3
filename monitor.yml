@@ -8,13 +8,6 @@
 name: Monitor B3 — Notícias
 
 on:
-  schedule:
-    - cron: '0 13 * * *'   # 10:00 BRT — disparo manhã
-    - cron: '30 13 * * *'  # 10:30 BRT — retry manhã
-    - cron: '0 17 * * *'   # 14:00 BRT — disparo tarde
-    - cron: '30 17 * * *'  # 14:30 BRT — retry tarde
-    - cron: '0 21 * * *'   # 18:00 BRT — disparo fim de tarde
-    - cron: '30 21 * * *'  # 18:30 BRT — retry fim de tarde
   workflow_dispatch:
 
 jobs:
